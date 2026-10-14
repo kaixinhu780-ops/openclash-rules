@@ -1,4 +1,6 @@
-# 可选 subconverter DNS/嗅探基础配置，搭配 INI 生成的“👆 手动选择”组。
+# OpenClash 基础 DNS 与嗅探配置 (Meta/Mihomo 内核防 DNS 泄漏黄金方案)
+# 搭配 subconverter INI 规则模板使用
+
 mixed-port: 7890
 redir-port: 7892
 tproxy-port: 7895
@@ -8,44 +10,93 @@ mode: rule
 log-level: info
 ipv6: false
 find-process-mode: strict
+
 profile:
   store-selected: true
   store-fake-ip: true
+
+# ============================================================
+# DNS 防泄漏黄金组合配置
+# ============================================================
 dns:
   enable: true
   listen: 0.0.0.0:7874
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-filter:
-  - '*.lan'
-  - '*.local'
-  - +.home.arpa
-  - localhost
-  - time.*.com
-  - time.*.gov
-  - +.pool.ntp.org
+  respect-rules: true          # 核心：DNS 解析严格遵循分流规则，走代理的流量其 DNS 不在本地发起查询
   use-hosts: true
   use-system-hosts: false
-  respect-rules: true
+
+  # 1. 引导 DNS（必须纯 IP，用于解析节点域名与 DoH 自身域名，防止死锁）
   default-nameserver:
-  - 223.5.5.5
-  - 119.29.29.29
+    - 223.5.5.5
+    - 119.29.29.29
+    - 180.184.1.1
+
+  # 2. 专门解析节点域名的 DNS（直连解析，防止死锁）
   proxy-server-nameserver:
-  - https://223.5.5.5/dns-query#DIRECT
-  - https://223.6.6.6/dns-query#DIRECT
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 3. 直连目标专用解析
   direct-nameserver:
-  - https://223.5.5.5/dns-query#DIRECT
-  - https://223.6.6.6/dns-query#DIRECT
-  direct-nameserver-follow-policy: false
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 4. 国内域名及私有网络精准直连，走国内加密 DoH
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+
+  # 5. 默认国内域名主解析
   nameserver:
-  - https://1.1.1.1/dns-query#👆 手动选择
-  - https://8.8.8.8/dns-query#👆 手动选择
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+
+  # 6. 境外回退 DNS（走境外防污染 DoH）
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+  # 7. 防污染过滤：命中 GFW 或非国内 IP 强制走 fallback
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      - gfw
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+      - 127.0.0.1/32
+
+  # 8. 必须返回真实 IP 的过滤白名单（避免局域网与时间同步异常）
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '+.home.arpa'
+    - 'localhost'
+    - 'time.*.com'
+    - 'time.*.gov'
+    - '+.pool.ntp.org'
+    - 'time.windows.com'
+    - '*.msftconnecttest.com'
+    - '*.msftncsi.com'
+    - 'msftconnecttest.com'
+    - '+.stun.*'
+    - '+.turn.*'
+
 hosts:
   localhost: 127.0.0.1
+
 proxies: []
 proxy-groups: []
 rules: []
+
+# ============================================================
+# 域名嗅探器（纠正 Fake-IP 及纯 IP 访问的目标域名）
+# ============================================================
 sniffer:
   enable: true
   force-dns-mapping: true
@@ -54,13 +105,13 @@ sniffer:
   sniff:
     HTTP:
       ports:
-      - 80
-      - 8080-8880
+        - 80
+        - 8080-8880
     TLS:
       ports:
-      - 443
-      - 8443
+        - 443
+        - 8443
     QUIC:
       ports:
-      - 443
-      - 8443
+        - 443
+        - 8443
