@@ -16,7 +16,9 @@ https://raw.githubusercontent.com/kaixinhu780-ops/openclash-rules/main/openclash
 
 ## 文件
 
-- [订阅转换模板](openclash-subconverter.ini)
+- [OpenClash 订阅转换模板 (INI)](openclash-subconverter.ini)
+- [Clash Verge / Clash Verge Rev 分流模板 (YAML)](clash-verge-template.yaml)
+- [Clash Verge 使用说明](Clash-Verge使用说明.md)
 - [DNS/嗅探基础配置](openclash-dns-base.yaml)
 - [完整使用说明](在线转换使用说明.md)
 - [AI 域名清单与来源](国外AI域名清单.md)
