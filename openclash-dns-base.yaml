@@ -9,7 +9,6 @@ bind-address: '*'
 mode: rule
 log-level: info
 ipv6: false
-find-process-mode: strict
 
 profile:
   store-selected: true
