@@ -1,4 +1,4 @@
-# OpenClash 基础 DNS 与嗅探配置 (彻底杜绝 DNS 泄漏专用版)
+# OpenClash 基础 DNS 与嗅探配置 (Meta/Mihomo 内核工业级防 DNS 泄漏方案)
 # 搭配 subconverter INI 规则模板使用
 
 mixed-port: 7890
@@ -9,14 +9,23 @@ bind-address: '*'
 mode: rule
 log-level: info
 ipv6: false
-find-process-mode: strict
+find-process-mode: 'off'
 
 profile:
   store-selected: true
   store-fake-ip: true
 
 # ============================================================
-# DNS 模块 (零泄漏核心：默认 nameserver 强制走代理组解析)
+# DNS 模块配置说明：
+# 1. default-nameserver: 仅纯 IP，用于引导解析 DoH/DoT 域名，防止死锁
+# 2. proxy-server-nameserver: 仅纯 IP，专门直连解析代理节点自身域名
+# 3. direct-nameserver: 国内加密 DoH，专供规则判定为 DIRECT 的国内流量解析真实 IP
+# 4. nameserver-policy: 精准分流矩阵
+#    - 国内域名 (geosite:cn,private) 走腾讯/阿里 DoH，保证国内访问极速且无污染
+#    - 国外域名 (geosite:geolocation-!cn) 走境外加密 DoH (Cloudflare / Google)
+#    - 核心 AI 域名 (OpenAI, Claude, Gemini, Siri) 与测试域名严格锁定境外加密 DoH
+# 5. nameserver: 默认境外加密 DoH 兜底，防止任何未命中国内的请求向国内泄漏
+# 6. fallback-filter: GFW 与国内 IP 严格校验，防止污染
 # ============================================================
 dns:
   enable: true
@@ -28,31 +37,71 @@ dns:
   use-hosts: true
   use-system-hosts: false
 
-  # 引导解析 DNS（纯 IP，仅用于直连解析代理节点服务器与 DoH 的域名，防死锁）
+  # 1. 引导 DNS（必须纯 IP，仅用于解析加密 DNS 的域名，防死锁）
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - 180.184.1.1
 
-  # 代理节点服务器域名专用解析（直连）
+  # 2. 专门解析代理节点域名的 DNS（纯 IP 直连，避免与代理通道死锁）
   proxy-server-nameserver:
-    - https://223.5.5.5/dns-query#DIRECT
-    - https://223.6.6.6/dns-query#DIRECT
+    - 223.5.5.5
+    - 119.29.29.29
 
-  # 国内直连流量专用 DNS（仅用于被规则判定为 DIRECT 的国内流量，直连低延迟）
+  # 3. 国内直连流量专用 DNS（仅用于被规则判定为 DIRECT 的国内流量，直连低延迟）
   direct-nameserver:
-    - https://223.5.5.5/dns-query#DIRECT
-    - https://223.6.6.6/dns-query#DIRECT
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
   direct-nameserver-follow-policy: false
 
-  # 核心防漏：默认 nameserver 全部强制通过代理节点（👆 手动选择）在远端查询
-  # 严禁在此处加入任何国内未加密 DNS 或国内 DoH，避免并发导致 DNS 泄漏！
-  nameserver:
-    - https://1.1.1.1/dns-query#👆 手动选择
-    - https://8.8.8.8/dns-query#👆 手动选择
-    - https://doh.opendns.com/dns-query#👆 手动选择
+  # 4. 域名策略精准分流（核心防漏：分道扬镳，互不干扰）
+  nameserver-policy:
+    # 国内与私有网络域名 -> 走国内高速加密 DoH
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
 
-  # 必须返回真实 IP 的过滤白名单（避免内网与时间服务异常）
+    # 国外域名与 GFW 域名 -> 走境外安全加密 DoH
+    "geosite:geolocation-!cn":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+
+    # 核心 AI 服务与测试域名 -> 显式锁死境外加密 DoH，彻底杜绝误判与泄漏
+    "+.openai.com,+.chatgpt.com,+.oaistatic.com,+.oaiusercontent.com":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+    "+.anthropic.com,+.claude.ai,+.claudeusercontent.com":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+    "+.gemini.google.com,+.aistudio.google.com,+.ai.google.dev":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+    "guzzoni.apple.com,+.smoot.apple.com,apple-relay.cloudflare.com,apple-relay.apple.com":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+    "+.browserleaks.com,+.dnsleaktest.com":
+      - https://cloudflare-dns.com/dns-query
+      - https://dns.google/dns-query
+
+  # 5. 默认 nameserver（兜底默认走境外加密 DoH，防止任何未知国外流量漏入国内）
+  nameserver:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+
+  # 6. 后备防污染过滤
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      - gfw
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+      - 127.0.0.1/32
+    domain:
+      - '+.browserleaks.com'
+      - '+.dnsleaktest.com'
+
+  # 7. 必须返回真实 IP 的过滤白名单（避免内网与时间服务异常）
   fake-ip-filter:
     - '*.lan'
     - '*.local'
