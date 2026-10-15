@@ -1,6 +1,6 @@
 # 国外 AI 域名清单
 
-核对日期：2026-10-14。以下条目包括 55 条「🤖 国外AI」域名条件与 4 条「🧩 Muse」域名条件，本次整理新增的 43 条域名条件已在其中。`DOMAIN-SUFFIX` 覆盖根域名及任意层级子域名；`DOMAIN` 仅匹配列出的精确主机名。不是所有域名都代表独立 AI 产品。
+更新日期：2026-10-15。以下条目包括 54 条「🤖 国外AI」域名条件与 5 条「🧩 Muse」显式域名条件，另有 555 条 Meta 共享域名条件，本次整理新增的 43 条域名条件已在其中。`DOMAIN-SUFFIX` 覆盖根域名及任意层级子域名；`DOMAIN` 仅匹配列出的精确主机名。不是所有域名都代表独立 AI 产品。
 
 ChatGPT、Claude、Gemini（包括 NotebookLM、AI Studio）继续使用各自独立分组，不在本表中。Muse 已改为独立分组。
 
@@ -22,7 +22,6 @@ ChatGPT、Claude、Gemini（包括 NotebookLM、AI Studio）继续使用各自�
 | `DOMAIN` | `edgeservices.bing.com` |
 | `DOMAIN-SUFFIX` | `githubcopilot.com` |
 | `DOMAIN` | `copilot-proxy.githubusercontent.com` |
-| `DOMAIN-SUFFIX` | `llama.com` |
 | `DOMAIN-SUFFIX` | `pi.ai` |
 | `DOMAIN-SUFFIX` | `inflection.ai` |
 | `DOMAIN-SUFFIX` | `grok.x.com` |
@@ -70,19 +69,20 @@ ChatGPT、Claude、Gemini（包括 NotebookLM、AI Studio）继续使用各自�
 | `DOMAIN-SUFFIX` | `meta.ai` |
 | `DOMAIN-SUFFIX` | `metaaivm.com` |
 | `DOMAIN` | `auth.meta.com` |
+| `DOMAIN-SUFFIX` | `llama.com` |
 
-上述四项归「🧩 Muse」，默认手动选择，可独立选节点；`llama.com` 仍归国外 AI。共享 Meta AI/登录端点也可能服务于其他 Meta 功能。
+上述五项归「🧩 Muse」，默认手动选择；另加入 Meta 共享域名集，详细范围、优先级及恢复方法见 [Muse扩展说明](Muse扩展说明.md)。
 
 ## 服务与范围
 
 新增 Muse / Meta AI、Pi / Inflection、Grok Bot 所用的 Cursor 资源与云电脑、Groq、Manus、Hugging Face、ElevenLabs、Mistral、Cohere、OpenRouter、Arena、Devin、DeepWiki、CodeRabbit、Midjourney、NovelAI、Jasper、Clipdrop、OpenArt、Lovart、Chutes、Kiro，并补充 Perplexity、Copilot。
 
-- Muse 的 `muse.ai` 已覆盖 `auth.muse.ai`、`platform.muse.ai` 等子域；Meta 登录使用精确的 `auth.meta.com`。整个 `meta.com`、`facebook.com`、`fbcdn.net` 没有从社交组移到 AI 组。
+- Muse 的 `muse.ai` 已覆盖 `auth.muse.ai`、`platform.muse.ai` 等子域；Meta 登录保留精确的 `auth.meta.com`。2026-10-15 扩展后，`meta.com`、Facebook/Instagram/WhatsApp 等维护源收录的共享域名也改归 Muse。
 - Pi 的 `pi.ai` 和 `inflection.ai` 已覆盖它们的 API、帮助中心、开发者页面等子域名。没有引入名称相近的第三方代用 API 服务。
 - Grok 的 `grok.com`、`x.ai` 已覆盖它们的 API 和静态资源子域；新增 `grok.x.com` 优先于 X 通用规则。Grok Bot 的已确认入口与 Cursor 资源、云电脑也归 AI；整个 `x.com` 仍走 X/Twitter 分组。
 - `cursorvm.com` 后缀规则覆盖嵌套主机，例如 `computer.cluster.cursorvm.com`；不需要枚举每台机器动态生成的主机名。
 - Perplexity 的 S3 上传域名、CodeRabbit 的 VS Assets 域名采用精确匹配，没有把整个 AWS、Azure、Cloudflare、Auth0、Clerk 或 WorkOS 改为 AI 流量。
-- Muse 经 Facebook/Instagram/WhatsApp 登录或调用，Grok 经 X 使用时，部分共享链路仍属于社交组。需要保持登录出口一致时，让对应社交组与 Muse/国外 AI 选择同一节点；本模板默认都跟随手动选择。
+- Muse 相关 Meta 共享链路已改归 Muse；Grok 经 X 使用时，部分共享链路仍属于社交组。需要保持登录出口一致时，让对应社交组与 Muse/国外 AI 选择同一节点；本模板默认都跟随手动选择。
 
 网页/App、API、CDN 的域名可能变动；云端 Agent 访问第三方网站的流量也不等同于你软路由上的本地 AI 请求。本清单不保证枚举所有未来域名或运行时目的地址。
 

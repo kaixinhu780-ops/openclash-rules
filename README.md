@@ -1,6 +1,6 @@
 # OpenClash 在线订阅转换模板
 
-用于软路由 OpenClash 的 subconverter 外部配置模板。当前包含 36 个策略组；Muse、ChatGPT、Claude、Gemini 独立分组，抖音、剪映、微信、QQ 归国内媒体，TikTok 独立分流。
+用于软路由 OpenClash 的 subconverter 外部配置模板。当前包含 30 个策略组；Muse、ChatGPT、Claude、Gemini 独立分组，抖音、剪映、微信、QQ 归国内媒体，TikTok 独立分流。
 
 ## 直接使用
 
@@ -10,7 +10,7 @@
 https://raw.githubusercontent.com/kaixinhu780-ops/openclash-rules/main/openclash-subconverter.ini
 ```
 
-转换地址使用你信任的 subconverter 后端。本模板包含 429 条 ruleset 配置，后端 `max_allowed_rulesets` 需为 `0`（不限）或至少 `429`。
+转换地址使用你信任的 subconverter 后端。本模板包含 223 条 ruleset 配置，后端 `max_allowed_rulesets` 需为 `0`（不限）或至少 `223`。
 
 模板已引用本仓库的 [DNS/嗅探基础配置](openclash-dns-base.yaml)，建议使用较新的 Meta/Mihomo 内核。软路由仍需启用 DNS 接管并核对 OpenClash 覆写设置。
 
@@ -28,3 +28,7 @@ https://raw.githubusercontent.com/kaixinhu780-ops/openclash-rules/main/openclash
 ## 已完成的验证
 
 实际 subconverter 转换、100 个代表性域名命中、分组引用与 Mihomo 配置检查通过。尚未在用户软路由、真实订阅或 App 中完成联网验收。
+
+2026-10-15：Muse 扩展至 555 条 Meta 共享域名条件，Facebook/Instagram/WhatsApp 等命中请求也跟随 Muse。详见 [Muse扩展说明](Muse扩展说明.md)。
+
+本次 Muse 扩展已基于远端 v1.3 后的 main 合并，保留远端 DNS 底稿、分组合并与香港手动选择。当前模板为 30 个策略组、223 个 ruleset 条目；前文旧版验证记录不代表当前分组数量。
