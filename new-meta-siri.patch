@@ -1,0 +1,52 @@
+--- a/new-meta.ini
++++ b/new-meta.ini
+@@ -25,6 +25,41 @@
+ ; ==========================================================
+ ; 1) 规则（自上而下优先级）
+ ; ==========================================================
++; ==========================================================
++; Siri Intelligence extension | 2026-10-15
++; Upstream: https://github.com/usbog232/clashmetadingyue
++; Upstream commit: dc4ce21d9a69e275d1fa06e70501ff69be56c950
++; Explicit Siri rules MUST precede China/direct/CDN/Apple/Cloudflare generic rules.
++; DNS/network takeover remains configured in OpenClash; this INI is routing only.
++; ==========================================================
++; Apple: Siri and dictation
++ruleset=🍎 Siri Intelligence,[]DOMAIN,guzzoni.apple.com
++; Apple: Siri and Spotlight/search
++ruleset=🍎 Siri Intelligence,[]DOMAIN-SUFFIX,smoot.apple.com
++; Apple: Private Cloud Compute
++ruleset=🍎 Siri Intelligence,[]DOMAIN,apple-relay.cloudflare.com
++; Apple: Private Cloud Compute
++ruleset=🍎 Siri Intelligence,[]DOMAIN,apple-relay.fastly-edge.com
++; Apple: Private Cloud Compute
++ruleset=🍎 Siri Intelligence,[]DOMAIN,cp4.cloudflare.com
++; Apple: Intelligence extensions / ChatGPT handoff
++ruleset=🍎 Siri Intelligence,[]DOMAIN,apple-relay.apple.com
++; Community: Apple Relay
++ruleset=🍎 Siri Intelligence,[]DOMAIN,apple-relay.mask.apple-dns.net
++; Community: network region detection (shared geo service)
++ruleset=🍎 Siri Intelligence,[]DOMAIN,gspe1-ssl.ls.apple.com
++; Community: Siri host family (including probe/seed)
++ruleset=🍎 Siri Intelligence,[]DOMAIN-SUFFIX,siri.apple.com
++; Community: Siri alias
++ruleset=🍎 Siri Intelligence,[]DOMAIN,guzzoni-apple-com.v.aaplimg.com
++; Community observation: Apple Relay candidate; verify in logs
++ruleset=🍎 Siri Intelligence,[]DOMAIN,apple-relay.akamaized.net
++; Optional shared compatibility endpoints (disabled; enable only with matching failure logs).
++; Enabling gateway.icloud.com also affects CloudKit/Voice Control, not only Siri.
++;ruleset=🍎 Siri Intelligence,[]DOMAIN,gateway.icloud.com
++; App Store assets are shared by many apps.
++;ruleset=🍎 Siri Intelligence,[]DOMAIN,apps.mzstatic.com
++
+ ruleset=🟥 Adobe,[]GEOSITE,adobe
+ ; --- 私网直连 ---
+ ruleset=DIRECT,[]GEOSITE,private
+@@ -104,6 +139,7 @@
+ ;    说明：每个应用都加入「🧊 冷门节点」可选
+ ; ==========================================================
+ custom_proxy_group=📦 Notion`select`[]🇭🇰 HK`[]🇹🇼 TW`[]🇯🇵 JP`[]🇸🇬 SG`[]🇺🇸 US`[]🧊 冷门节点`[]🧭 全部节点`[]♻️ 自动选择`[]DIRECT`[]🌐 Default
++custom_proxy_group=🍎 Siri Intelligence`select`[]🤖 ChatGPT`[]🧭 全部节点`[]🇺🇸 US`[]🇯🇵 JP`[]🇹🇼 TW`[]🇸🇬 SG`[]🇭🇰 HK`[]🧊 冷门节点`[]♻️ 自动选择
+ custom_proxy_group=🍎 Apple`select`[]🇭🇰 HK`[]🇹🇼 TW`[]🇯🇵 JP`[]🇸🇬 SG`[]🇺🇸 US`[]🧊 冷门节点`[]🧭 全部节点`[]♻️ 自动选择`[]DIRECT`[]🌐 Default
+ custom_proxy_group=🤖 ChatGPT`select`[]🇭🇰 HK`[]🇹🇼 TW`[]🇯🇵 JP`[]🇸🇬 SG`[]🇺🇸 US`[]🧊 冷门节点`[]🧭 全部节点`[]♻️ 自动选择`[]🌐 Default
+ custom_proxy_group=🧠 AI`select`[]🇭🇰 HK`[]🇹🇼 TW`[]🇯🇵 JP`[]🇸🇬 SG`[]🇺🇸 US`[]🧊 冷门节点`[]🧭 全部节点`[]♻️ 自动选择`[]🌐 Default

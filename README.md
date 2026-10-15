@@ -1,5 +1,9 @@
 # OpenClash 在线订阅转换模板
 
+## new-meta.ini 的 Siri 扩展版本
+
+另提供基于用户指定的 usbog232/clashmetadingyue/new-meta.ini 的 [new-meta-siri.ini](new-meta-siri.ini)，新增“🍎 Siri Intelligence”和 11 条优先匹配的 Siri/PCC/扩展规则。[来源、域名说明及使用方法](new-meta-siri说明.md)。此版本的 DNS 仍需在 OpenClash 中单独设置。
+
 > 2026-10-15 DNS 修复：普通查询和 DIRECT 域名解析统一经“👆 手动选择”访问海外加密 DNS；仅节点引导使用直连加密 DNS。更新订阅后必须检查 OpenClash 最终运行配置，详见 [DNS修复说明](DNS修复说明.md)。
 
 > 当前策略（2026-10-15 社交分组恢复）：Muse 专用域名最先匹配；Instagram、WhatsApp、Facebook 社交规则随后匹配；Meta 共享域名集最后补充。共享规则不再优先覆盖这三个平台。广告拦截仍在前面。
