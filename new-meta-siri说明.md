@@ -2,7 +2,11 @@
 
 文件：[new-meta-siri.ini](new-meta-siri.ini)。日期：2026-10-15。
 
-已克隆来源仓库 [usbog232/clashmetadingyue](https://github.com/usbog232/clashmetadingyue)，基于提交 `dc4ce21d9a69e275d1fa06e70501ff69be56c950` 的 `new-meta.ini` 修改。原模板各项规则、选择器和节点筛选保持原文，仅新增 Siri 规则块与一个策略组；可复现补丁见 [new-meta-siri.patch](new-meta-siri.patch)。来源仓库未附 LICENSE，来源署名保留在文件内；本仓库不对来源内容新增授权声明。
+已克隆来源仓库 [usbog232/clashmetadingyue](https://github.com/usbog232/clashmetadingyue)，基于提交 `dc4ce21d9a69e275d1fa06e70501ff69be56c950` 的 `new-meta.ini` 修改。原模板各项规则、选择器和节点筛选保持原文，先新增 Siri 规则块与策略组，当前又增加 Muse 规则块、Muse 主组及固定出口辅助组；可复现补丁见 [new-meta-siri.patch](new-meta-siri.patch)。来源仓库未附 LICENSE，来源署名保留在文件内；本仓库不对来源内容新增授权声明。
+
+## Muse 后续扩展
+
+本模板已增加“🧩 Muse AI”和“🔒 Muse 固定出口”，使用前务必阅读 [Muse 固定出口扩展说明](new-meta-siri-muse说明.md)。Meta 共享域名会优先归 Muse，固定出口只能选实际节点或 REJECT。
 
 ## 新策略组
 
@@ -47,7 +51,7 @@ Apple 当前已公布 Siri AI Beta 的使用要求，但未公布可确保覆盖
 ## 验证
 
 - 已确认源仓库可克隆，并保存源提交、文件 SHA256 和可复现补丁。
-- 原模板移除本次新增块后可逐字恢复；新增后共 37 个策略组、48 个 ruleset 条目。
+- 原模板来源有可复现补丁；Siri 初版为 37 个策略组、48 个 ruleset 条目；当前加上 Muse 后为 39 组、60 个 ruleset 条目。
 - 五个原模板远程规则源下载成功；实际 subconverter v0.9.0 转换成功。
 - 11 条 Siri 条件均位于转换结果最前面，13 个代表性主机（含子域名及别名）命中检查通过；原 Apple、ChatGPT、Cloudflare 规则保留。
 - 官方 Mihomo v1.19.32 配置检查通过，采用 MetaCubeX 维护的 GeoSite 数据核验原模板各分类。

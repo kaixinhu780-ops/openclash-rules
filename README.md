@@ -2,7 +2,7 @@
 
 ## new-meta.ini 的 Siri 扩展版本
 
-另提供基于用户指定的 usbog232/clashmetadingyue/new-meta.ini 的 [new-meta-siri.ini](new-meta-siri.ini)，新增“🍎 Siri Intelligence”和 11 条优先匹配的 Siri/PCC/扩展规则。[来源、域名说明及使用方法](new-meta-siri说明.md)。此版本的 DNS 仍需在 OpenClash 中单独设置。
+另提供基于用户指定的 usbog232/clashmetadingyue/new-meta.ini 的 [new-meta-siri.ini](new-meta-siri.ini)，新增“🍎 Siri Intelligence”和 11 条优先匹配的 Siri/PCC/扩展规则，另有“🧩 Muse AI”固定出口及 555 条 Meta 共享域名覆盖。[Muse 使用与边界](new-meta-siri-muse说明.md)。[来源、域名说明及使用方法](new-meta-siri说明.md)。此版本的 DNS 仍需在 OpenClash 中单独设置。
 
 > 2026-10-15 DNS 修复：普通查询和 DIRECT 域名解析统一经“👆 手动选择”访问海外加密 DNS；仅节点引导使用直连加密 DNS。更新订阅后必须检查 OpenClash 最终运行配置，详见 [DNS修复说明](DNS修复说明.md)。
 
