@@ -1,5 +1,10 @@
 # Muse / Meta 扩展说明
 
+> 当前策略（2026-10-15 社交分组恢复）：Muse 专用域名最先匹配；Instagram、WhatsApp、Facebook 社交规则随后匹配；Meta 共享域名集最后补充。共享规则不再优先覆盖这三个平台。广告拦截仍在前面。
+>
+> 小火箭：Instagram → 📸 Instagram，WhatsApp → 📞 WhatsApp，Facebook → 🌐 国外社交。OpenClash：按已有合并分组，三者 → 🌐 国外社交。共享登录或 CDN 仅能按域名判定用途，Muse 若涉及这些端点，也会采用社交策略；需要一致出口时，让相应社交策略与 Muse 选择同一节点。
+
+
 更新日期：2026-10-15。按用户要求，小火箭与 OpenClash 均将 Meta 共享服务域名归入“🧩 Muse”。
 
 ## 覆盖范围与影响
@@ -8,7 +13,7 @@
 
 这些是维护者的广义分流分类，不是 Meta 官方提供的 Muse 专用网络清单，也不代表已逐一核验所有域名的实际所有权或用途。无法保证覆盖运行时所有第三方连接，云端 Agent 对第三方服务的访问也不等同于本地设备的连接。
 
-**命中共享域名的 Facebook、Instagram、WhatsApp 等请求会改用 Muse 出口，优先于原社交分组。** 原社交组保留供其他未被共享域名集命中的规则使用；若想恢复社交组控制，需要撤掉这条共享规则，或将更窄的社交例外放在它前面。
+**当前优先级：Muse 专用条件 → Instagram / WhatsApp / Facebook 社交规则 → Meta 共享扩展规则。** 三个平台的规则命中由各自现有社交策略控制。未命中社交规则的 Meta 共享请求才由 Muse 扩展接管。
 
 广告拦截在共享扩展规则之前；不会为了覆盖 Meta 而放行所有广告或追踪连接。没有使用 DOMAIN-KEYWORD,meta、整个 Cloudflare/AWS/Azure 域名等宽泛条件，也未把整个 Meta ASN/IP 段强制归 Muse。
 

@@ -1,5 +1,10 @@
 # OpenClash 在线订阅转换模板
 
+> 当前策略（2026-10-15 社交分组恢复）：Muse 专用域名最先匹配；Instagram、WhatsApp、Facebook 社交规则随后匹配；Meta 共享域名集最后补充。共享规则不再优先覆盖这三个平台。广告拦截仍在前面。
+>
+> 小火箭：Instagram → 📸 Instagram，WhatsApp → 📞 WhatsApp，Facebook → 🌐 国外社交。OpenClash：按已有合并分组，三者 → 🌐 国外社交。共享登录或 CDN 仅能按域名判定用途，Muse 若涉及这些端点，也会采用社交策略；需要一致出口时，让相应社交策略与 Muse 选择同一节点。
+
+
 用于软路由 OpenClash 的 subconverter 外部配置模板。当前包含 30 个策略组；Muse、ChatGPT、Claude、Gemini 独立分组，抖音、剪映、微信、QQ 归国内媒体，TikTok 独立分流。
 
 ## 直接使用

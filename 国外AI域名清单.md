@@ -1,5 +1,10 @@
 # 国外 AI 域名清单
 
+> 当前策略（2026-10-15 社交分组恢复）：Muse 专用域名最先匹配；Instagram、WhatsApp、Facebook 社交规则随后匹配；Meta 共享域名集最后补充。共享规则不再优先覆盖这三个平台。广告拦截仍在前面。
+>
+> 小火箭：Instagram → 📸 Instagram，WhatsApp → 📞 WhatsApp，Facebook → 🌐 国外社交。OpenClash：按已有合并分组，三者 → 🌐 国外社交。共享登录或 CDN 仅能按域名判定用途，Muse 若涉及这些端点，也会采用社交策略；需要一致出口时，让相应社交策略与 Muse 选择同一节点。
+
+
 更新日期：2026-10-15。以下条目包括 54 条「🤖 国外AI」域名条件与 5 条「🧩 Muse」显式域名条件，另有 555 条 Meta 共享域名条件，本次整理新增的 43 条域名条件已在其中。`DOMAIN-SUFFIX` 覆盖根域名及任意层级子域名；`DOMAIN` 仅匹配列出的精确主机名。不是所有域名都代表独立 AI 产品。
 
 ChatGPT、Claude、Gemini（包括 NotebookLM、AI Studio）继续使用各自独立分组，不在本表中。Muse 已改为独立分组。
